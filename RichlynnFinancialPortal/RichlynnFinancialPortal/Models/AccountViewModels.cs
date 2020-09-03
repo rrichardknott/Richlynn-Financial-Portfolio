@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace RichlynnFinancialPortal.Models
 {
@@ -79,6 +80,13 @@ namespace RichlynnFinancialPortal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class ExtendedRegisterViewModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public  HttpPostedFileBase Avatar { get; set; }
     }
 
     public class ResetPasswordViewModel

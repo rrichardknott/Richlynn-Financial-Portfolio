@@ -57,8 +57,9 @@ namespace RichlynnFinancialPortal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            var userModel = new LoginViewModel();
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(userModel);
         }
 
         //
