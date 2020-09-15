@@ -4,79 +4,71 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+    <h1 class="text-white" id="bankAccountDetailsH1">Bank Account Details</h1>
+    <div class="mt-5" id="bankAccountDetailsContainer">
+        
+        <table>
+            <thead class="text-white backgroundCharcoal">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Household.HouseholdName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Owner.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccountName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartingBalance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CurrentBalance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WarningBalance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsDeleted)
+                    </th>
+                </tr>
+            </thead>
+            <tr class="backgroundWhite colorBlack">
+                <td>
+                    @Html.DisplayFor(model => model.Household.HouseholdName)
+                </td>
 
-<div>
-    <h4>BankAccount</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Household.HouseholdName)
-        </dt>
+                <td>
+                    @Html.DisplayFor(model => model.Owner.Email)
+                </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.Household.HouseholdName)
-        </dd>
+                <td>
+                    @Html.DisplayFor(model => model.AccountName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.StartingBalance)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.CurrentBalance)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.WarningBalance)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IsDeleted)
+                </td>
+            </tr>
+        </table>
+        <p class="" id="bankAccountDetailsEditBackButtonContainer">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "btn backgroundGoldenRod text-white mr-3 mt-2", id="bankAccountDetailsEditButton" })
+            @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn backgroundGoldenRod text-white mt-2", id = "bankAccountDetailsBackButton" })
+        </p>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Owner.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Owner.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AccountName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AccountName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartingBalance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartingBalance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentBalance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CurrentBalance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.WarningBalance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.WarningBalance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    </div>  
+          

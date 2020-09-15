@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using RichlynnFinancialPortal.Enums;
+using RichlynnFinancialPortal.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -13,8 +15,9 @@ namespace RichlynnFinancialPortal.Models
 
         public int Id { get; set; }
 
-        public int HouseholdId { get; set; }
+        public int? HouseholdId { get; set; }
 
+        [Required]
         public string OwnerId { get; set; }
 
         public virtual Household Household { get; set; }
@@ -24,7 +27,18 @@ namespace RichlynnFinancialPortal.Models
         [Display(Name = "Bank Account Name")]
         public string AccountName { get; set; }
 
+        
         public DateTime Created { get; set; }
+        [NotMapped]
+        [Display(Name = "Created")]
+        public string CreatedString
+        {
+            get
+            {
+                string dateString = Created.ToString("MMM dd, yyy");
+                return dateString;
+            }
+        }
 
         [Display(Name = "Starting Balance")]
         public decimal StartingBalance { get; internal set; }
@@ -48,9 +62,11 @@ namespace RichlynnFinancialPortal.Models
             StartingBalance = startingBalance;
             CurrentBalance = startingBalance;// CurrentBalance will equal startingBalance upon creation
             WarningBalance = warningBalance;
+            //AccountType = AccountType;
             Created = DateTime.Now;
             AccountName = accountName;
             OwnerId = HttpContext.Current.User.Identity.GetUserId();
+            HouseholdId = (int)HttpContext.Current.User.Identity.GetHouseholdId();
         }
 
         public BankAccount()

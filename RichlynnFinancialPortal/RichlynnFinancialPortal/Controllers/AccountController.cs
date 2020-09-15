@@ -9,6 +9,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using RichlynnFinancialPortal.Models;
+using RichlynnFinancialPortal.Helpers;
+using RichlynnFinancialPortal.Extensions;
+using System.Net.Mail;
+using System.Configuration;
+using System.Web.Configuration;
+using System.IO;
 
 namespace RichlynnFinancialPortal.Controllers
 {
@@ -17,6 +23,8 @@ namespace RichlynnFinancialPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        UserRoleHelper userRoleHelper = new UserRoleHelper();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -57,9 +65,16 @@ namespace RichlynnFinancialPortal.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            var userModel = new LoginViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                AuthorizeExtensions.AutoLogOut(HttpContext);
+            }
+
             ViewBag.ReturnUrl = returnUrl;
-            return View(userModel);
+
+            LoginViewModel model = new LoginViewModel();
+            
+            return View(model);
         }
 
         //
@@ -140,7 +155,8 @@ namespace RichlynnFinancialPortal.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var userModel = new ExtendedRegisterViewModel();
+            return View(userModel);
         }
 
         //
@@ -148,16 +164,105 @@ namespace RichlynnFinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(ExtendedRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                //if (model.Avatar != null)
+                //{
+                //     Code that generates the Avatar path
+                //}
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    userRoleHelper.AddUserToRole(user.Id, "New User");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Url.Scheme);
+                    try
+                    {
+                        var from = "Richlylynn Financial Admin<admin@richlynnfinancial.com>";
+                        var email = new MailMessage(from, model.Email)
+                        {
+                            Subject = "Confirm your email.",
+                            Body = $"Hello {model.FullName}, please click <a href =\"" + callbackUrl + "\">here</a> to confirm your email address and complete your registration.",
+                            IsBodyHtml = true
+                        };
+                        var svc = new EmailService();
+                        await svc.SendAsync(email);
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        await Task.FromResult(0);
+                    }
+
+
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Login", "Account");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult AcceptInvitation(string recipientEmail, string code)
+        {
+            var realGuid = Guid.Parse(code);
+            var invitation = db.Invitations.FirstOrDefault(i => i.RecipientEmail == recipientEmail && i.Code == realGuid);
+            if (invitation == null)
+            {
+                //need to create this view
+                return View("NotFoundError", invitation);
+            }
+            var expirationDate = invitation.Created.AddDays(invitation.TTL);
+            if (invitation.IsValid && DateTime.Now < expirationDate)
+            {
+                var householdName = db.Households.Find(invitation.HouseholdId).HouseholdName;
+                ViewBag.Greeting = $"Thank you for accepting my invitation to join the {householdName} house.";
+                var model = new AcceptInvitationViewModel()
+                {
+                    InvitationId = invitation.Id,
+                    Email = recipientEmail,
+                    HouseholdId = invitation.HouseholdId,
+                    Code = realGuid
+                };
+                return View(model);
+            }
+            return View("AcceptError", invitation);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]   
+        public async Task<ActionResult> AcceptInvitation(AcceptInvitationViewModel model)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, HouseholdId = model.HouseholdId };
+                if (model.Avatar != null)
+                {
+                    //Code that generates the Avatar path
+                }
+                
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    userRoleHelper.AddUserToRole(user.Id, "Member");
+                    InvitationHelper.MarkAsInvalid(model.InvitationId);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -171,7 +276,38 @@ namespace RichlynnFinancialPortal.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+           
+
         }
+        [Authorize(Roles ="New User")]
+        [HttpPost]
+        public async Task<ActionResult> ManualJoin(string code)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var realGuid = Guid.Parse(code);
+            var invitation = db.Invitations.FirstOrDefault(i => i.RecipientEmail == user.Email && i.Code == realGuid);
+            if (invitation == null)
+            {
+                return View("NotFoundError");
+            }
+
+            var expirationDAte = invitation.Created.AddDays(invitation.TTL);
+            if (invitation.IsValid && DateTime.Now < expirationDAte)
+            {
+                InvitationHelper.MarkAsInvalid(invitation.Id);
+                user.HouseholdId = invitation.HouseholdId;
+                userRoleHelper.UpdateUserRole(user.Id, "Member");
+
+                await AuthorizeExtensions.RefreshAuthentication(HttpContext, user);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View("AcceptError", invitation);
+        }
+
+
+
 
         //
         // GET: /Account/ConfirmEmail
@@ -191,7 +327,8 @@ namespace RichlynnFinancialPortal.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            ForgotPasswordViewModel model = new ForgotPasswordViewModel();
+            return View(model);
         }
 
         //
@@ -203,19 +340,42 @@ namespace RichlynnFinancialPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null )
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    //return View("ForgotPasswordConfirmation");
+                    return RedirectToAction("Login");
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
+
+                // Otherwise, send an email with this link
+                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+
+                try
+                {
+                    var from = "RichlynnFinancial<richardknott@gmail.com>";
+
+                    var email = new MailMessage(from, model.Email)
+                    {
+                        Subject = "Reset Password",
+                        Body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>",
+                        IsBodyHtml = true
+                    };
+                    var svc = new EmailService();
+                    await svc.SendAsync(email);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    await Task.FromResult(0);
+                }
+
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -235,7 +395,8 @@ namespace RichlynnFinancialPortal.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            var model = new ResetPasswordViewModel();
+            return code == null ? View("Error") : View(model);
         }
 
         //
@@ -393,7 +554,8 @@ namespace RichlynnFinancialPortal.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            
+            return RedirectToAction("Login", "Account");
         }
 
         //

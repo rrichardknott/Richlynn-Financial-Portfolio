@@ -1,0 +1,401 @@
+﻿body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6a6f8c;
+    color: #1C3041;
+    background-image: url(/Images/loginBodyBackground.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font: 600 16px/18px 'Garamond', sans-serif;
+    padding-bottom: 340px;
+        
+}
+
+.login-box, .register-box {
+    width: 100%;
+    margin-top: 50%;
+    max-width: 500px;
+    min-height: 670px;
+    position: relative;
+    background: url(/images/loginBackground625x770.png) no-repeat left;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+    border-radius: 15px;
+}
+
+.login-snip, .register-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 90px 70px 50px 70px;
+    background: rgba(0, 77, 77, .6);
+    border-radius: 15px;
+}
+
+    .login-snip .login,
+    .login-snip .sign-up-form {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+        transition: all .4s linear
+    }
+
+    .login-snip .sign-in,
+    .login-snip .sign-up,
+    .login-space .group .check {
+        display: none
+    }
+
+    .login-snip .tab,
+    .login-space .group .label,
+    .login-space .group .button {
+        text-transform: uppercase
+    }
+
+    .login-snip .tab {
+        font-size: 22px;
+        margin-right: 15px;
+        padding-bottom: 5px;
+        margin: 0 15px 10px 0;
+        display: inline-block;
+        border-bottom: 2px solid transparent
+    }
+
+    .login-snip .sign-in:checked + .tab,
+    .login-snip .sign-up:checked + .tab {
+        color: #fff;
+        border-color: #1161ee
+    }
+
+.login-space {
+    min-height: 345px;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d
+}
+
+    .login-space .group {
+        margin-bottom: 15px
+    }
+
+        .login-space .group .label,
+        .login-space .group .input,
+        .login-space .group .button {
+            width: 100%;
+            color: #fff;
+            display: block
+        }
+
+        .login-space .group .input,
+        .login-space .group .button {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, .1)
+        }
+
+        .login-space .group input[data-type="password"] {
+            text-security: circle;
+            -webkit-text-security: circle
+        }
+
+        .login-space .group .label {
+            color: #aaa;
+            font-size: 12px
+        }
+
+        .login-space .group .button {
+            background: #1161ee
+        }
+
+        .login-space .group label .icon {
+            width: 15px;
+            height: 15px;
+            border-radius: 2px;
+            position: relative;
+            display: inline-block;
+            background: rgba(255, 255, 255, .1)
+        }
+
+            .login-space .group label .icon:before,
+            .login-space .group label .icon:after {
+                content: '';
+                width: 10px;
+                height: 2px;
+                background: #fff;
+                position: absolute;
+                transition: all .2s ease-in-out 0s
+            }
+
+            .login-space .group label .icon:before {
+                left: 3px;
+                width: 5px;
+                bottom: 6px;
+                transform: scale(0) rotate(0)
+            }
+
+            .login-space .group label .icon:after {
+                top: 6px;
+                right: 0;
+                transform: scale(0) rotate(0)
+            }
+
+        .login-space .group .check:checked + label {
+            color: #fff
+        }
+
+            .login-space .group .check:checked + label .icon {
+                background: #1161ee
+            }
+
+                .login-space .group .check:checked + label .icon:before {
+                    transform: scale(1) rotate(45deg)
+                }
+
+                .login-space .group .check:checked + label .icon:after {
+                    transform: scale(1) rotate(-45deg)
+                }
+
+.login-snip .sign-in:checked + .tab + .sign-up + .tab + .login-space .login {
+    transform: rotate(0)
+}
+
+.login-snip .sign-up:checked + .tab + .login-space .sign-up-form {
+    transform: rotate(0)
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: '';
+    display: table
+}
+
+.clearfix:after {
+    clear: both;
+    display: block
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+.hr {
+    height: 2px;
+    margin: 60px 0 50px 0;
+    background: rgba(255, 255, 255, .2)
+}
+
+.foot {
+    text-align: center
+}
+
+.card {
+    width: 500px;
+    left: 100px
+}
+
+::placeholder {
+    color: #ffffff
+}
+/*=====================================MY STYLES=======================================*/
+
+.applyFlexBox {
+    display: flex;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.backgroundBlack {
+    background-color: black;
+}
+
+.backgroundCharcoal {
+    background-color: #303030;
+}
+
+.backgroundWhite {
+    background-color: white;
+}
+
+.backgroundDarkBlue {
+    background-color: #00008b;
+}
+
+.backgroundGreen {
+    background-color: green;
+}
+
+.backgroundRed {
+    background-color: darkred
+}
+
+.backgroundYellow {
+    background-color: goldenrod;
+}
+
+.backgroundPurple {
+    background-color: #663399;
+}
+
+.colorBlack {
+    color: black;
+}
+
+.colorWhite {
+    color: white;
+}
+
+.colorDarkBlue {
+    color: #00008b;
+}
+
+.colorBrightRed {
+    color: #E10600;
+}
+
+.colorDarkRed {
+    color: darkred;
+}
+
+.colorGoldenRod {
+    color: goldenrod;
+}
+
+.colorGreen {
+    color: green;
+}
+
+.colorDarkGreen {
+    color: darkgreen;
+}
+
+table {
+    border: 1px solid black !important;
+}
+
+thead {
+    background-color: lightgray;
+}
+
+th, td {
+    border: 1px solid black !important;
+}
+
+.width-7 {
+    width: 7%;
+}
+
+.width-8 {
+    width: 8%;
+}
+
+.width-9 {
+    width: 9%;
+}
+
+.width-10 {
+    width: 10%;
+}
+
+.width-18 {
+    width: 18%;
+}
+
+.width-20 {
+    width: 20%;
+}
+
+.width-30 {
+    width: 30%;
+}
+
+.width-40 {
+    width: 40%;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.width-60 {
+    width: 60%;
+}
+
+.width-70 {
+    width: 70%;
+}
+
+.width-80 {
+    width: 80%;
+}
+
+.width-90 {
+    width: 90%;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.listStyleTypeNone {
+    list-style-type: none;
+}
+
+.textDecorationUnderline {
+    text-decoration: underline;
+}
+
+/*----Login----*/
+#loginLogo, #forgotPasswordLogo {
+    position: relative;
+    font-weight: 500;
+    font-family: 'Bilbo Swash Caps', cursive;
+    color: goldenrod;
+    letter-spacing: 5px;
+    text-align-last: center;
+    top: -15%;   
+}
+
+
+#loginSnip #forgotPasswordSnip {
+    bottom: 0%;
+}
+
+#loginColumn, #forgotPasswordColumn{
+    display: flex;
+    justify-content: center;
+}
+
+#forgotPasswordBottomRow{
+    width: 500px;
+}
+
+#loginRememberMe{
+    margin-bottom: 20px;
+}
+
+.fontSizeLarger{
+    font-size: 130%;
+}
+
+.fontSizeXLarge {
+    font-size: 42px;
+}
+
+.fontFamilyGaramond{
+    font-family: 'Garamond', sans-serif;
+}

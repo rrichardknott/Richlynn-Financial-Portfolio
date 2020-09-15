@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using RichlynnFinancialPortal.Extensions;
 using RichlynnFinancialPortal.Models;
 
 namespace RichlynnFinancialPortal
@@ -15,50 +17,62 @@ namespace RichlynnFinancialPortal
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Invitations
-        public ActionResult Index()
-        {
-            var invitations = db.Invitations.Include(i => i.Household);
-            return View(invitations.ToList());
-        }
+        
+        //public ActionResult Index()
+        //{
+        //    var invitations = db.Invitations.Include(i => i.Household);
+        //    return View(invitations.ToList());
+        //}
 
         // GET: Invitations/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Invitation invitation = db.Invitations.Find(id);
-            if (invitation == null)
-            {
-                return HttpNotFound();
-            }
-            return View(invitation);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Invitation invitation = db.Invitations.Find(id);
+        //    if (invitation == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(invitation);
+        //}
 
         // GET: Invitations/Create
+        [Authorize(Roles ="Head")]
         public ActionResult Create()
         {
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName");
-            return View();
+            var hhId = User.Identity.GetHouseholdId();
+            if (hhId == 0)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var invitation = new Invitation((int)hhId);
+            //ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName");
+            return View(invitation);
         }
 
         // POST: Invitations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,Body,IsValid,Created,TTL,RecipientEmail,Code")] Invitation invitation)
+        public async Task<ActionResult> Create(Invitation controllerInvitation)
         {
             if (ModelState.IsValid)
             {
-                db.Invitations.Add(invitation);
+                controllerInvitation.Code = Guid.NewGuid();
+                db.Invitations.Add(controllerInvitation);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName", invitation.HouseholdId);
-            return View(invitation);
+                await controllerInvitation.SendInvitation();
+
+                return RedirectToAction("Index", "Home");
+            }
+                        
+            return View(controllerInvitation);
         }
 
         // GET: Invitations/Edit/5

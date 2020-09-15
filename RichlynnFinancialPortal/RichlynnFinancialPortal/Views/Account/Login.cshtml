@@ -1,63 +1,111 @@
 ﻿@using RichlynnFinancialPortal.Models
 @model LoginViewModel
+
 @{
     ViewBag.Title = "Log in";
+    Layout = null;
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
+    <link href="//fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/site.css">
+    <link rel="stylesheet" href="~/Content/loginStyle.css" />
+    <link href="~/Images/favicon.png" type="image/png" rel="icon" />
+    <title>Richlynn Financial</title>
+</head>
+<!--====================================================================================================-->
+<body>
+    <div class="row">
+        <div class="p-0" id="forgotPasswordColumn">
+            <div class="card" id="forgotPasswordForm">         
+                
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="login-box">
+                        <div class="login-snip" id=forgotPasswordSnip>
+                            <h1 class="fontSizeXLarge" id=forgotPasswordLogo>Richlynn Financial </h1>
+
+                            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label>
+
+                            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+
+                            <div class="login-space">
+                                <div class="login">
+
+                                    <div class="col-md-10 group">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control input fontSizeLarger fontFamilyGaramond", placeholder = "Email" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 group">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control input fontSizeLarger fontFamilyGaramond", placeholder = "Password" })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="checkbox colorWhite fontSizeLarger" id="loginRememberMe">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                    <div class="group"> <input type="submit" class="button fontSizeLarger fontFamilyGaramond" value="Sign In"> </div>
+                                    <hr />
+                                    <div id="loginForgotPasswordAndDemoLinksUL">
+
+                                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "loginRegisterLink", @class = "colorWhite" }) &nbsp;|
+                                        @Html.ActionLink("Forgot password?", "ForgotPassword", "Account", routeValues: null, htmlAttributes: new { id = "forgotPasswordLink", @class = "colorWhite" })
+                                       
+
+
+                                        @*<li>@Html.ActionLink("Resend Email Confirmation", "ResendEmailConfirmation", "Account", routeValues: null, htmlAttributes: new { id = "resendEmailConfirmationLink" })</li>*@
+                                    </div>
+
+                                </div><!--end login-->
+                            </div><!--end login space-->
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                    </div>
+                }
+
+            </div>
+            
+
+        </div>
+        
+    </div>
+
+
+
+    
+
+
+    @*<div class="foot colorWhite"> <a href="#">Forgot Password?</a> </div>
+
+        <div class="sign-up-form">
+            <div class="group"> <input id="user" type="text" class="input" placeholder="Create your Username"> </div>
+            <div class="group"> <input id="pass" type="password" class="input" data-type="password" placeholder="Create Password"> </div>
+            <div class="group"><input id="pass" type="password" class="input" data-type="password" placeholder="Repeat  password"> </div>
+            <div class="group"> <input id="pass" type="text" class="input" placeholder="Your email address"> </div>
+            <div class="group"> <input type="submit" class="button" value="Sign Up"> </div>
+
+            <div class="foot colorWhite"> <label for="tab-1">Already Member?</label> </div>
+        </div>*@
+
+
+    <!--=====================================================================================================-->
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+</body>
+</html>

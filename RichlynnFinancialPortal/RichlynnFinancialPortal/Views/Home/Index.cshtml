@@ -1,31 +1,138 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿
+    @{ 
+        ViewBag.Title = "Home page";
+    }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <!--begin top row-->
+                <div class="row" id="layoutTopRow">
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
+                        </div>
+                    </div>
+                </div><!--end top row-->
+                <!--begin bottom row-->
+                <div class="mt-5" id="layoutBottomRow">
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
+                        </div>
+                    </div>
+                </div><!--end bottom row-->
+            </div>
+        </main>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+
+        <!--My Modals Begin-->
+        <!--Create Household Begin-->
+        
+        @using (Html.BeginForm("Create", "Households", FormMethod.Post))
+        {
+            <div class="modal fade" id="createHouseholdModal">
+                <div class="modal-dialog">
+                    <div class="modal-content backgroundCharcoal text-white">
+                        @Html.AntiForgeryToken()
+
+                        <div class="modal-header">
+                            <h2>Create Household</h2>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
+                        </div>
+                        <div class="modal-body displayFlex">
+                            @Html.Label("Name", new { htmlAttributes = new { @class = "form-control " } })
+                            @Html.Editor("HouseholdName", new { @class = "text-danger" })
+                        </div>
+                        <div class="modal-body">
+                            @Html.Label("Greeting", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.Editor("Greeting", new { @class = "text-danger" })
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="Create" class="btn backgroundWhite colorBlack" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!--Create Household Ends-->
+        <!--Join Household Begin-->
+        @using (Html.BeginForm("ManualJoin", "Account", FormMethod.Post))
+        {
+            <div class="modal fade" id="joinHouseholdModal">
+                <div class="modal-dialog">
+                    <div class="modal-content backgroundCharcoal text-white">
+                        @Html.AntiForgeryToken()
+
+                        <div class="modal-header">
+                            <h2>Join Household</h2>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
+                        </div>
+                        <div class="modal-body displayFlex">
+                            Invitation Code:
+                            @Html.TextBox("Code",null , new { @class = "form-control mt-4" })
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="Submit" class="btn backgroundWhite colorBlack" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <!--Join Household Ends-->
+        <!--Add Bank Account Begin-->
+       
+            <div class="modal fade" id="addBankAccountModal">
+                <div class="modal-dialog">
+                    <div class="modal-content backgroundCharcoal text-white" id="addBankAccountModalContentContainer"> 
+                        <div class="modal-header">
+                            <h2>Add Bank Account</h2>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
+                        </div>
+                        <div class="modal-body displayFlex">
+                            @Html.Action("_BankAccountModal", "BankAccounts")
+                        </div>                       
+                        @*<div class="modal-footer">                            
+                            <input type="submit" value="Create" class="btn backgroundGoldenRod text-white w-50" />
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        
+        <!--Add Bank Account Ends-->
+        <!--User Setting Begin-->
+        <div class="modal fade" id="userSettingsModal">
+            <div class="modal-dialog">
+                <div class="modal-content backgroundCharcoal">
+                    <div class="modal-header">
+                        <h2 class="text-white">User Settings</h2>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
+                    </div>
+                    <div class="modal-body displayFlex pt-4 pb-5">
+                        @Html.ActionLink("Change Name", "UpdateProfile", "Manage", null, new { @class = " btn backgroundWhite colorBlack" })
+                        @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = " btn backgroundWhite colorBlack" })
+                        @Html.ActionLink("Change Avatar", "#", "#", null, new { @class = " btn backgroundWhite colorBlack" })
+                    </div>
+                    @*<div class="modal-footer">
+                        <input type="submit" value="Submit" class="btn backgroundWhite colorBlack" />
+                    </div>*@
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+        <!--View Profile Ends-->
+
+        <!--My Modals End-->
+

@@ -30,13 +30,13 @@ namespace RichlynnFinancialPortal.Models
 
         [NotMapped]
         [Display(Name = "Full Name")]
-        public string FullName 
+        public string FullName
         {
             get
             {
                 return $"{FirstName} {LastName}";
             }
-                
+
         }
 
         public virtual ICollection<Budget> Budgets { get; set; }
@@ -61,6 +61,13 @@ namespace RichlynnFinancialPortal.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            var hhId = HouseholdId != null ? HouseholdId.ToString() : "";
+            userIdentity.AddClaim(new Claim("HouseholdId", hhId));
+            userIdentity.AddClaim(new Claim("FullName", FullName));
+            userIdentity.AddClaim(new Claim("AvatarPath", AvatarPath));
+
+
+
             // Add custom user claims here
             return userIdentity;
         }
@@ -91,5 +98,7 @@ namespace RichlynnFinancialPortal.Models
         public System.Data.Entity.DbSet<RichlynnFinancialPortal.Models.Notification> Notifications { get; set; }
 
         public System.Data.Entity.DbSet<RichlynnFinancialPortal.Models.Transaction> Transactions { get; set; }
+
+        
     }
 }

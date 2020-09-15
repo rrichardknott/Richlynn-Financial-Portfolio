@@ -12,7 +12,7 @@ namespace RichlynnFinancialPortal.Models
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public int Id { get; set; }
+        public int Id { get; set; }  
         public int HouseholdId { get; set; }
         public virtual Household Household { get; set; }
         public string OwnerId { get; set; }
@@ -40,14 +40,15 @@ namespace RichlynnFinancialPortal.Models
 
         public virtual ICollection<BudgetItem> Items { get; set; }
 
+        public Budget(bool isTrue) { }
         public Budget()
         {
             Items = new HashSet<BudgetItem>();
             Created = DateTime.Now;
             OwnerId = HttpContext.Current.User.Identity.GetUserId();
+            CurrentAmount = 0;
+
         }
-
-
 
     }
 }

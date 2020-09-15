@@ -7,14 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RichlynnFinancialPortal.Models;
+using RichlynnFinancialPortal.Enums;
 
 namespace RichlynnFinancialPortal
 {
+    [Authorize(Roles = "New User, Member, Head")]
     public class BankAccountsController : Controller
     {
+        
+
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: BankAccounts
+       
         public ActionResult Index()
         {
             var bankAccounts = db.BankAccounts.Include(b => b.Household).Include(b => b.Owner);
@@ -39,9 +44,10 @@ namespace RichlynnFinancialPortal
         // GET: BankAccounts/Create
         public ActionResult Create()
         {
+            var userModel = new BankAccount();
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName");
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName");
+            return View(userModel);
         }
 
         // POST: BankAccounts/Create
@@ -49,18 +55,14 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,OwnerId,AccountName,Created,StartingBalance,CurrentBalance,WarningBalance,IsDeleted")] BankAccount bankAccount)
+        public ActionResult Create(BankAccount account, decimal startingBalance)
         {
-            if (ModelState.IsValid)
-            {
-                db.BankAccounts.Add(bankAccount);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName", bankAccount.HouseholdId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", bankAccount.OwnerId);
-            return View(bankAccount);
+            var bankAccount = new BankAccount(startingBalance, account.WarningBalance, account.AccountName);
+            bankAccount.HouseholdId = account.HouseholdId;
+            bankAccount.AccountType = account.AccountType;
+            db.BankAccounts.Add(bankAccount);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: BankAccounts/Edit/5
@@ -85,18 +87,34 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,OwnerId,AccountName,Created,StartingBalance,CurrentBalance,WarningBalance,IsDeleted")] BankAccount bankAccount)
+        public ActionResult Edit([Bind(Include = "Id,HouseholdId,OwnerId,AccountName,Created,StartingBalance,CurrentBalance,WarningBalance,IsDeleted,AccountType")] BankAccount bankAccount, decimal startingBalance)
         {
             if (ModelState.IsValid)
             {
+                //=============
+                bankAccount.StartingBalance = startingBalance;
+                //==============
                 db.Entry(bankAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName", bankAccount.HouseholdId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", bankAccount.OwnerId);
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName", bankAccount.OwnerId);
             return View(bankAccount);
         }
+
+
+        public PartialViewResult _BankAccountModal()
+        {
+            var userModel = new BankAccount();
+
+            return PartialView(userModel);
+        }
+
+
+
+
+
 
         // GET: BankAccounts/Delete/5
         public ActionResult Delete(int? id)

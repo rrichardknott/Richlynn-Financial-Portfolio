@@ -1,0 +1,98 @@
+﻿@model RichlynnFinancialPortal.Models.AcceptInvitationViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
+    <link href="//fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/site.css">
+    <link rel="stylesheet" href="~/Content/loginStyle.css" />
+    <link href="~/Images/favicon.png" type="image/png" rel="icon" />
+    <title>Richlynn Financial</title>
+</head>
+<!--====================================================================================================-->
+<body>
+    <div class="row">
+        <div class="p-0" id="registerColumn">
+            <div class="card" id="registerForm">
+                @using (Html.BeginForm("AcceptInvitation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.InvitationId)
+                    @Html.HiddenFor(model => model.Code)
+                    @Html.HiddenFor(model => model.HouseholdId)
+                    @Html.HiddenFor(model => model.Email)
+                  
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="login-box">
+                        <div class="login-snip" id=loginSnip>
+                            <h1 class="fontSizeXLarge" id=loginLogo>Richlynn Financial </h1>
+                            
+                            
+                            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign Up</label>
+
+                            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
+                           
+
+                            <div class="login-space">
+                                <div class="login">
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 group">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control input fontSizeLarger fontFamilyGaramond", placeholder = "Email..." })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 group">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @placeholder = "First Name", maxlength = "50", @class = "form-control input fontSizeLarger fontFamilyGaramond", id = "" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 group">
+                                            @Html.TextBoxFor(m => m.LastName, new { @placeholder = "Last Name", maxlength = "50", @class = "form-control input fontSizeLarger fontFamilyGaramond", id = "" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 group">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control input fontSizeLarger fontFamilyGaramond", placeholder = "Password..." })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10 group">
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @placeholder = "Confirm password", @maxlength = "50", @class = "form-control input fontSizeLarger  fontFamilyGaramond", id = "" })
+                                        </div>
+                                    </div>
+
+                                    <div class="group"> <input type="submit" class="button fontSizeLarger fontFamilyGaramond" value="Register"> </div>
+
+                                    @Html.ActionLink("Back to Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "backToLoginLink", @class = "colorWhite" })
+
+                                </div><!--end login-->
+                            </div><!--end login space-->
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+</body>
+</html>

@@ -66,5 +66,20 @@ namespace RichlynnFinancialPortal.Helpers
             }
             return resultList;
         }
+
+        // The following method ensures that only one role is assigned to a user
+        public bool UpdateUserRole(string userId, string roleName)
+        {
+            var currentRoles = ListUserRoles(userId);
+            if (currentRoles.Count != 0)
+            {
+                foreach (var role in currentRoles)
+                {
+                    RemoveUserFromRole(userId, role);
+                }
+            }
+            return AddUserToRole(userId, roleName);
+            
+        }
     }
 }

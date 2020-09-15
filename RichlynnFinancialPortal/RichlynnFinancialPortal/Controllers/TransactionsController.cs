@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RichlynnFinancialPortal.Models;
+using RichlynnFinancialPortal.Enums;
+using RichlynnFinancialPortal.Extensions;
 
 namespace RichlynnFinancialPortal
 {
@@ -39,8 +41,9 @@ namespace RichlynnFinancialPortal
         // GET: Transactions/Create
         public ActionResult Create()
         {
+            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "AccountName");
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "ItemName");
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email");
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -49,17 +52,24 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,BudgetItemId,OwnerId,Created,Amount,Memo,IsDeleted")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,AccountId,BudgetItemId,OwnerId,TransactionType,Created,Amount,Memo,IsDeleted")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
+
+                //var thisTransaction = db.Transactions.Include(t => t.BudgetItem).FirstOrDefault(t => t.Id == transaction.Id);
+                //Alternate syntax for .Include()
+                //var thisTransaction2 = db.Transactions.Include("BudgetItem").FirstOrDefault(t => t.Id == transaction.Id);
+
+                transaction.UpdateBalances();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "OwnerId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "ItemName", transaction.BudgetItemId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", transaction.OwnerId);
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName", transaction.OwnerId);
             return View(transaction);
         }
 
@@ -75,6 +85,7 @@ namespace RichlynnFinancialPortal
             {
                 return HttpNotFound();
             }
+            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "OwnerId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "ItemName", transaction.BudgetItemId);
             ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", transaction.OwnerId);
             return View(transaction);
@@ -85,16 +96,19 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AccountId,BudgetItemId,OwnerId,Created,Amount,Memo,IsDeleted")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Id,AccountId,BudgetItemId,OwnerId,TransactionType,Created,Amount,Memo,IsDeleted")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
+                var oldTransaction = db.Transactions.AsNoTracking().FirstOrDefault(t => t.Id == transaction.Id);
                 db.Entry(transaction).State = EntityState.Modified;
                 db.SaveChanges();
+                transaction.EditTransaction(oldTransaction);
                 return RedirectToAction("Index");
             }
+            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "OwnerId", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "ItemName", transaction.BudgetItemId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", transaction.OwnerId);
+            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName", transaction.OwnerId);
             return View(transaction);
         }
 

@@ -7,8 +7,8 @@ namespace RichlynnFinancialPortal.Enums
 {
     public enum TransactionType
     {
-        Deposit,
-        Withdrawal,
-        Transfer
+        Deposit, // 0
+        Withdrawal, // 1
+        Transfer // 2
     }
 }

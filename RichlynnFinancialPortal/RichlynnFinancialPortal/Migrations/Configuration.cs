@@ -2,6 +2,7 @@ namespace RichlynnFinancialPortal.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using RichlynnFinancialPortal.Enums;
     using RichlynnFinancialPortal.Models;
     using System;
     using System.Data.Entity;
@@ -123,6 +124,79 @@ namespace RichlynnFinancialPortal.Migrations
 
             }
             #endregion
+
+            #region Seed Household
+            Household newHouse = null;
+            if (!context.Households.Any())
+            {
+                newHouse = new Household
+                {
+                    Created = DateTime.Now,
+                    Greeting = "Hello from Seeded House",
+                    IsDeleted = false,
+                    HouseholdName = "Seeded House"
+                };
+
+                context.Households.Add(newHouse);
+            }
+            context.SaveChanges();
+            #endregion
+
+            #region Seed Bank Account
+            var ownerId = context.Users.FirstOrDefault(u => u.Email == adminEmail).Id;
+            if (!context.BankAccounts.Any())
+            {
+                context.BankAccounts.Add(new BankAccount
+                {
+                    AccountName = "Wells Fargo Checking",
+                    AccountType = AccountType.Checking,
+                    Created = DateTime.Now,
+                    CurrentBalance = 5000,
+                    HouseholdId = newHouse.Id,
+                    IsDeleted = false,
+                    OwnerId = ownerId,
+                    StartingBalance = 5000,
+                    WarningBalance = 500
+                });
+
+                context.SaveChanges();
+            }
+            #endregion
+
+            #region Seed Budget
+            Budget budget = null;
+            if (!context.Budgets.Any())
+            {               
+
+                budget = new Budget(true)
+                {
+                    BudgetName = "Utilities",
+                    Created = DateTime.Now,
+                    HouseholdId = newHouse.Id,
+                    OwnerId = ownerId,
+                    CurrentAmount = 0
+                };
+
+                context.Budgets.Add(budget);
+                context.SaveChanges();
+            }
+            #endregion
+
+            #region Seed Item
+            if (!context.BudgetItems.Any())
+            {
+                context.BudgetItems.Add(new BudgetItem()
+                {
+                    CurrentAmount = 0,
+                    TargetAmount = 250,
+                    BudgetId = budget.Id,
+                    Created = DateTime.Now,
+                    ItemName = "Gas Bill",
+                    IsDeleted = false
+                });
+                context.SaveChanges();
+                #endregion
+            }
         }
 
     }

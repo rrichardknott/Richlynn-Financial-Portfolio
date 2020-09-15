@@ -7,7 +7,7 @@ namespace RichlynnFinancialPortal.Enums
 {
     public enum AccountType
     {
-        Checking,
-        Savings
+        Checking, // 0
+        Savings // 1
     }
 }
