@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css" integrity="sha512-SUJFImtiT87gVCOXl3aGC00zfDl6ggYAw5+oheJvRJ8KBXZrr/TMISSdVJ5bBarbQDRC2pR5Kto3xTR0kpZInA==" crossorigin="anonymous" />
     <link href="//cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link href="~/Content/datatables.css" rel="stylesheet" />
-    @*@Scripts.Render("~/bundles/modernizr")*@
+    @Scripts.Render("~/bundles/modernizr")
     <link href="//fonts.googleapis.com/css2?family=Bilbo+Swash+Caps&display=swap" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
     <script src="//unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -205,7 +205,8 @@
                 </nav>
             </div>
 
-            @RenderBody()
+        @RenderBody()
+            
 
         </div>
         <!--Integration ends-->
@@ -218,7 +219,7 @@
         <!--My Modals Begin-->
         <!--Create Household Begin-->
 
-        @using (Html.BeginForm("Create", "Households", FormMethod.Post))
+        @*@using (Html.BeginForm("Create", "Households", FormMethod.Post))
         {
             <div class="modal fade" id="createHouseholdModal">
                 <div class="modal-dialog">
@@ -243,11 +244,11 @@
                     </div>
                 </div>
             </div>
-        }
+        }*@
         <!--Create Household Ends-->
         @*Add Bank Account Begin*@
 
-        <div class="modal fade" id="addBankAccountModal">
+        @*<div class="modal fade" id="addBankAccountModal">
             <div class="modal-dialog">
                 <div class="modal-content backgroundCharcoal text-white" id="addBankAccountModalContentContainer">
                     <div class="modal-header">
@@ -262,7 +263,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         @*Add Bank Account Ends*@
 
 

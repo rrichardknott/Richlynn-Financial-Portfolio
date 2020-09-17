@@ -132,13 +132,41 @@ namespace RichlynnFinancialPortal.Migrations
                 newHouse = new Household
                 {
                     Created = DateTime.Now,
-                    Greeting = "Hello from Seeded House",
+                    Greeting = "Hello from Seeded Household",
                     IsDeleted = false,
-                    HouseholdName = "Seeded House"
+                    HouseholdName = "Seeded Household"
                 };
 
                 context.Households.Add(newHouse);
             }
+            context.SaveChanges();
+
+            Household newHouse1 = null;           
+            
+                newHouse1 = new Household
+                {
+                    Created = DateTime.Now,
+                    Greeting = "Hello from The Avalos Household",
+                    IsDeleted = false,
+                    HouseholdName = "The Avalos'"
+                };
+
+                context.Households.Add(newHouse1);
+            
+            context.SaveChanges();
+
+            Household newHouse2 = null;
+
+            newHouse2 = new Household
+            {
+                Created = DateTime.Now,
+                Greeting = "Hello from The Jones' Household",
+                IsDeleted = false,
+                HouseholdName = "The Jones'"
+            };
+
+            context.Households.Add(newHouse2);
+
             context.SaveChanges();
             #endregion
 
@@ -179,6 +207,16 @@ namespace RichlynnFinancialPortal.Migrations
 
                 context.Budgets.Add(budget);
                 context.SaveChanges();
+
+                Budget budget1 = null;
+                budget1 = new Budget(true)
+                {
+                    BudgetName = "Groceries",
+                    Created = DateTime.Now,
+                    HouseholdId = newHouse1.Id,
+                    OwnerId = ownerId,
+                    CurrentAmount = 0
+                };
             }
             #endregion
 
@@ -194,6 +232,17 @@ namespace RichlynnFinancialPortal.Migrations
                     ItemName = "Gas Bill",
                     IsDeleted = false
                 });
+                context.SaveChanges();
+
+                BudgetItem budgetItem1 = new BudgetItem
+                {
+                    CurrentAmount = 0,
+                    TargetAmount = 250,
+                    BudgetId = budget.Id,
+                    Created = DateTime.Now,
+                    ItemName = "Electricity Bill",
+                    IsDeleted = false
+                };
                 context.SaveChanges();
                 #endregion
             }
