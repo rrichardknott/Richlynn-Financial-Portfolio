@@ -17,7 +17,6 @@ namespace RichlynnFinancialPortal.Models
 
         public int? HouseholdId { get; set; }
 
-        [Required]
         public string OwnerId { get; set; }
 
         public virtual Household Household { get; set; }

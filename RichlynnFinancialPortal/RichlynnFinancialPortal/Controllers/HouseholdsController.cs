@@ -42,7 +42,7 @@ namespace RichlynnFinancialPortal
         }
 
         // GET: Households/Create
-        [Authorize(Roles ="New User")]
+        [Authorize(Roles ="New User, Member")]
         public ActionResult Create()
         {
             var userModel = new Household();//May have to change the model
@@ -54,7 +54,7 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "New User")]
+        [Authorize(Roles = "New User, Member")]
         public async Task<ActionResult> Create([Bind(Include = "Id,HouseholdName,Greeting")] Household household)
         {
             if (ModelState.IsValid) 

@@ -71,6 +71,7 @@ body {
     background-image: url('/Images/loginBodyBackground.png');
     
     
+    
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -10905,6 +10906,9 @@ body {
 
 /*=====================================MY STYLES=======================================*/
 
+
+
+
 .applyFlexBox{
     display: flex;
 }
@@ -11005,8 +11009,16 @@ th, td{
     border: 1px solid black!important;
 }
 
+.fadedBlack{
+    background-color: rgba(0, 0, 0, .5);
+}
+
 .fadedCharcoal{
-    background-color: rgba(48, 48, 48, .4);
+    background-color: rgba(48, 48, 48, .7);
+}
+
+.fadedWhite{
+    background-color: rgba(255, 255, 255, .7);
 }
 
 .fadedGreen {
@@ -11082,6 +11094,13 @@ th, td{
     width: 250px!important;
 }
 
+.height30{
+    height: 30px;
+}
+
+.marginTop60{
+    margin-top: 60px;
+}
 .listStyleTypeNone {
     list-style-type: none;
 }
@@ -11100,17 +11119,20 @@ th, td{
     flex-direction: column;
 }
 
+.flexStart {
+    justify-content: flex-start;
+}
 
+.flexEnd {
+    justify-content: flex-end;
+}
 
-
-/*===================Login Page============*/
-body{
-    
-    
-    
+.displayNone{
+    display: none;
 }
 
 
+/*===================Login Page============*/
 
 #forgotPasswordTextBox, #registerEmailTextBox, #registerFirstNameTextBox, #registerLastNameTextBox, #registerPasswordTextBox, #confirmRegisterPasswordTextBox, #loginEmailTextBox, #loginPasswordTextBox, #loginButton {
     border-radius: 10rem;
@@ -11172,12 +11194,6 @@ body{
 }
 
 
-
-#sidenavAccordion {
-    
-}
-
-
 .brandTitle {
     font-size: 2rem;
     font-weight: 500;
@@ -11198,16 +11214,31 @@ body{
     top: 5%;
 }
 
+/*Side Nav*/
+#sideNavUserInfo{
+    position: relative;
+    top: 100px;
+}
+
+
 #layoutHomeAboutContainer, #layoutRegisterLoginContainer {
     width: 15%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    position: relative;
+    right: 6%;
 }
 
 #navbarUserLogoffLink{
     position: relative;
     right: 9px;
 }
+
+#layoutLeaveButton{
+    position: relative;
+    right: 30%;
+}
+
 /*For third party auth google button*/
 .googleThirdParyAuthorizationButton {
     border-radius: 10rem;
@@ -11270,7 +11301,7 @@ footer{
 }
 
 #layoutTopRow {
-    margin-top: 10%;
+    margin-top: 60px;
 }
 
 #layoutTopRow img, #layoutBottomRow img {
@@ -11328,14 +11359,16 @@ footer{
     right: 11px;
 }
 
-/*Bank Account Edit*/
+# table bankAccountsIndexTableRow{
+    border-bottom: white;
 
+}
+/*Bank Account Edit*/
 #bankAccountEditMainContainer, form {
     display: flex;
     justify-content: center;
     padding: 5%;
     width: 100%;
-   
 }
 
 #bankAccountEditSaveBackButtonContainer{
@@ -11373,7 +11406,7 @@ footer{
 /*Bank Account Details*/
 #bankAccountDetailsEditBackButtonContainer{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start
 
 }
 
@@ -11404,14 +11437,17 @@ footer{
     justify-content: flex-end;
 }
 /*Manage/Update Profile*/
-#updateProfileContainer, #changePasswordContainer {
+#updateProfileContainer  {
     margin-top: 10%;
     flex-direction: column;
 }
 
-#updateProfileSaveButtonForm{
-    position: relative;
+#changePasswordContainer{
     
+}
+
+#updateProfileSaveButtonForm {
+    position: relative;
 }
 
 #updateProfileSaveButton{
@@ -11441,6 +11477,79 @@ footer{
     
 }
 
+/*Transaction Create*/
+#CreateTransactionForm {
+    display: flex;
+    width: 99%;
+    border: 1px solid black;
+    padding-top: 2%;
+    margin-bottom: 2%;
+}
+
+#transactionsCreateButton {
+       
+}
+
+#transactionsIndexRow {
+    height: 80vh;
+    
+}
+#transcationsIndexTable {
+    margin-top: 60px;
+    height: 60vh;        
+    
+}
+
+#transactionsIndexTR{
+    height: 30px;
+}
+
+
+#transactionsIndexTBody {
+
+}
+
+/*Household Index*/
+
+
+
+#householdsIndexRow{
+    height: 80vh;
+}
+
+#householdsIndexTable{
+    margin-top: 60px;
+    height: 60vh;
+}
+
+#householdsCreateButton{
+    width: 10%;
+}
+
+/*Budgets Index*/
+#budgetsIndexTR {
+    height: 30px;
+}
+
+#budgetsIndexRow{
+    height: 80vh;
+}
+
+#budgetsIndexTable{
+    margin-top: 60px;
+    height: 60vh;
+}
+
+#budgetsCreateButton{
+    width: 100%;
+}
+
+/*Budget Items*/
+#budgetItemsTR{
+    margin-top: 60px;
+}
+
+
 
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -11450,4 +11559,4 @@ footer{
    }
 }
 
-
+/*========================================================================*/

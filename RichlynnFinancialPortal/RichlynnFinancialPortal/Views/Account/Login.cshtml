@@ -21,7 +21,7 @@
 </head>
 <!--====================================================================================================-->
 <body>
-    <div class="row">
+    <div class="row colorWhite">
         <div class="p-0" id="forgotPasswordColumn">
             <div class="card" id="forgotPasswordForm">         
                 
@@ -40,18 +40,18 @@
 
                             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
 
-                            <div class="login-space">
+                            <div class="login-space" id="demoLoginSpace">
                                 <div class="login">
 
                                     <div class="col-md-10 group">
                                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control input fontSizeLarger fontFamilyGaramond", placeholder = "Email" })
-                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger colorRed" })
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-md-10 group">
                                             @Html.PasswordFor(m => m.Password, new { @class = "form-control input fontSizeLarger fontFamilyGaramond", placeholder = "Password" })
-                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger colorRed" })
                                         </div>
                                     </div>
 
@@ -61,14 +61,12 @@
                                     </div>
                                     <div class="group"> <input type="submit" class="button fontSizeLarger fontFamilyGaramond" value="Sign In"> </div>
                                     <hr />
-                                    <div id="loginForgotPasswordAndDemoLinksUL">
+                                    <div class="text-white fontSizeLarger w-100" id="loginForgotPasswordAndDemoLinksUL">
 
-                                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "loginRegisterLink", @class = "colorWhite" }) &nbsp;|
-                                        @Html.ActionLink("Forgot password?", "ForgotPassword", "Account", routeValues: null, htmlAttributes: new { id = "forgotPasswordLink", @class = "colorWhite" })
+                                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "loginRegisterLink", @class = "colorWhite" }) |
+                                        @Html.ActionLink("Forgot password?", "ForgotPassword", "Account", routeValues: null, htmlAttributes: new { id = "forgotPasswordLink", @class = "colorWhite" }) |
+                                        @Html.ActionLink("Demo Login", "LoginDemo", "Account", routeValues: null, htmlAttributes: new { id = "demoLoginRegisterLink", @class = "colorWhite" })
                                        
-
-
-                                        @*<li>@Html.ActionLink("Resend Email Confirmation", "ResendEmailConfirmation", "Account", routeValues: null, htmlAttributes: new { id = "resendEmailConfirmationLink" })</li>*@
                                     </div>
 
                                 </div><!--end login-->

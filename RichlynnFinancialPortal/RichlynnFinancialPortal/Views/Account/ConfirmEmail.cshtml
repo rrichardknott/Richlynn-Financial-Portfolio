@@ -10,7 +10,7 @@
 
         <div>
             <p class="text-white">
-                Thank you for confirming your email. <br /><span class=" textDecorationUnderline">@Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink"})</span>
+                Thank you for confirming your email, click the button below to go to the login page. <br /><span class=" textDecorationUnderline">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { @class="btn backgroundWhite colorBlack width-20", id = "loginLink"})</span>
             </p>
         </div>
     </div>

@@ -21,7 +21,7 @@ namespace RichlynnFinancialPortal.Extensions
             var emailMessage = new MailMessage(from, invitation.RecipientEmail)
             {
                 Subject = "You have been invited to join Richlynn Financial",
-                Body = $"You can create a new account and join as a memeber by clicking this link: <a href=\"{callbackUrl}\">Join</a><br /><hr />If you have already created an account copy and paste the following code to join the household: Code = {invitation.Code}.",
+                Body = $"You can create a new account and join as a member by clicking this link: <a href=\"{callbackUrl}\">Join</a><br /><hr />If you have already created an account copy and paste the following code to join the household: Code = {invitation.Code}.",
                 IsBodyHtml = true
             };
 

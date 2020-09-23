@@ -9,16 +9,20 @@ using System.Web.Mvc;
 using RichlynnFinancialPortal.Models;
 using RichlynnFinancialPortal.Enums;
 using RichlynnFinancialPortal.Extensions;
+using Microsoft.AspNet.Identity;
 
 namespace RichlynnFinancialPortal
 {
+    [Authorize(Roles = "New User, Member, Head")]
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         // GET: Transactions
+        
         public ActionResult Index()
         {
+            
             var transactions = db.Transactions.Include(t => t.BudgetItem).Include(t => t.Owner);
             return View(transactions.ToList());
         }
@@ -41,21 +45,25 @@ namespace RichlynnFinancialPortal
         // GET: Transactions/Create
         public ActionResult Create()
         {
+            Transaction transaction = new Transaction();
             ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "AccountName");
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "ItemName");
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
+            //ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName");
+            return View(transaction);
         }
+        
 
         // POST: Transactions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,BudgetItemId,OwnerId,TransactionType,Created,Amount,Memo,IsDeleted")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "AccountId,BudgetItemId,OwnerId,TransactionType,Amount,Memo")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
+                transaction.Created = DateTime.Now;
+                transaction.OwnerId = User.Identity.GetUserId();
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
 
@@ -63,7 +71,7 @@ namespace RichlynnFinancialPortal
                 //Alternate syntax for .Include()
                 //var thisTransaction2 = db.Transactions.Include("BudgetItem").FirstOrDefault(t => t.Id == transaction.Id);
 
-                transaction.UpdateBalances();
+                transaction.UpdateBalances();                
                 return RedirectToAction("Index");
             }
 

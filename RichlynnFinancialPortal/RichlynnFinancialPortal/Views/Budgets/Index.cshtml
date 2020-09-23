@@ -6,52 +6,60 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Household.HouseholdName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Owner.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BudgetName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CurrentAmount)
-        </th>
-        <th></th>
-    </tr>
+<div class="container-fluid">
+    <div class="row" id="budgetsIndexRow">
+       
+            <table class="table colorWhite" id="budgetsIndexTable">
+                <tr class="colorWhite fadedBlack" id="budgetsIndexTR">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Household.HouseholdName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Owner.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BudgetName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CurrentAmount)
+                    </th>
+                    <th>Action</th>
+                </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Household.HouseholdName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Owner.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BudgetName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CurrentAmount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                @foreach (var item in Model)
+                {
+                    <tr class="colorWhite fadedCharcoal">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Household.HouseholdName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Owner.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BudgetName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CurrentAmount)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
 
-</table>
+            </table>
+
+       
+        <p>
+            @Html.ActionLink("Create New", "Create", "Budgets", new { @class = "btn backgroundWhite", id = "budgetsCreateButton" })
+        </p>
+    </div>
+</div>

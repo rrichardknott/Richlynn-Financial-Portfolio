@@ -32,11 +32,11 @@
                         @Html.DisplayNameFor(model => model.WarningBalance)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IsDeleted)
+                       Deleted?
                     </th>
                 </tr>
             </thead>
-            <tr class="backgroundWhite colorBlack">
+            <tr class="fadedCharcoal colorWhite">
                 <td>
                     @Html.DisplayFor(model => model.Household.HouseholdName)
                 </td>
@@ -66,8 +66,8 @@
             </tr>
         </table>
         <p class="" id="bankAccountDetailsEditBackButtonContainer">
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "btn backgroundGoldenRod text-white mr-3 mt-2", id="bankAccountDetailsEditButton" })
-            @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn backgroundGoldenRod text-white mt-2", id = "bankAccountDetailsBackButton" })
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "btn backgroundWhite colorBlack mr-3 mt-2", id="bankAccountDetailsEditButton" })
+            @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn backgroundWhite colorBlack mt-2", id = "bankAccountDetailsBackButton" })
         </p>
 
     </div>  

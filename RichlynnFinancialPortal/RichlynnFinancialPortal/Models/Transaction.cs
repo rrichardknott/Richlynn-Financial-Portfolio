@@ -3,6 +3,7 @@ using RichlynnFinancialPortal.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,7 @@ namespace RichlynnFinancialPortal.Models
     public class Transaction
     {
         public int Id { get; set; }
+
         [Display(Name="Bank Account")]
         public int AccountId { get; set; }
 
@@ -26,6 +28,17 @@ namespace RichlynnFinancialPortal.Models
         public virtual ApplicationUser Owner { get; set; }
 
         public DateTime Created { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Created")]
+        public string CreatedString
+        {
+            get
+            {
+                string dateString = Created.ToString("MMM dd, yyy");
+                return dateString;
+            }
+        }
 
         public decimal Amount { get; set; }
         public string Memo { get; set; } // description of transaction

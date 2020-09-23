@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -12,6 +13,18 @@ namespace RichlynnFinancialPortal.Models
         public int BudgetId { get; set; }
         public virtual Budget Budget { get; set; }
         public DateTime Created { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Created")]
+        public string CreatedString
+        {
+            get
+            {
+                string dateString = Created.ToString("MMM dd, yyy");
+                return dateString;
+            }
+        }
+
 
         [Display(Name = "Name")]
         public string ItemName { get; set; }

@@ -39,9 +39,10 @@ namespace RichlynnFinancialPortal
         // GET: Notifications/Create
         public ActionResult Create()
         {
+            Notification notification = new Notification();
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName");
             ViewBag.RecipientId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            return View(notification);
         }
 
         // POST: Notifications/Create

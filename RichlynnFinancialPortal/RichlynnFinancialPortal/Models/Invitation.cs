@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -22,7 +23,18 @@ namespace RichlynnFinancialPortal.Models
         //========================================================================//
         public DateTime Created { get; set; }
 
-        public int TTL { get; internal set; }// Time To Live - number of days invitation is valid
+        [NotMapped]
+        [Display(Name = "Created")]
+        public string CreatedString
+        {
+            get
+            {
+                string dateString = Created.ToString("MMM dd, yyy");
+                return dateString;
+            }
+        }
+
+        public int TTL { get; internal set; }// Internally set by the constructor below.  Time To Live - number of days invitation is valid
 
         //if(DateTime.Now > Created.AddDays(TTL)){IsValid = false};
 

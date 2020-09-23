@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using RichlynnFinancialPortal.Models;
 using RichlynnFinancialPortal.Enums;
+using Microsoft.AspNet.Identity;
+using RichlynnFinancialPortal.Extensions;
+using RichlynnFinancialPortal.ViewModels;
 
 namespace RichlynnFinancialPortal
 {
@@ -22,8 +25,17 @@ namespace RichlynnFinancialPortal
        
         public ActionResult Index()
         {
-            var bankAccounts = db.BankAccounts.Include(b => b.Household).Include(b => b.Owner);
-            return View(bankAccounts.ToList());
+            //var bankAccounts = db.BankAccounts.Include(b => b.Household).Include(b => b.Owner);
+            var data = new BankAccountIndexViewModel();
+            var userId = User.Identity.GetUserId();
+            data.MyBankAccounts = db.BankAccounts.Where(b => b.OwnerId == userId).ToList();
+            var myHouseholdId = User.Identity.GetHouseholdId();
+            if (myHouseholdId != null)
+            {
+                data.HouseholdAccounts = db.Users.Where(u => u.HouseholdId == myHouseholdId && u.Id != userId).SelectMany(u => u.BankAccounts).ToList();
+            }
+           
+            return View(data);
         }
 
         // GET: BankAccounts/Details/5
@@ -42,6 +54,7 @@ namespace RichlynnFinancialPortal
         }
 
         // GET: BankAccounts/Create
+        [Authorize(Roles ="Member, Head")]
         public ActionResult Create()
         {
             var userModel = new BankAccount();
@@ -55,14 +68,18 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(BankAccount account, decimal startingBalance)
+        public ActionResult Create(BankAccount account)
         {
-            var bankAccount = new BankAccount(startingBalance, account.WarningBalance, account.AccountName);
-            bankAccount.HouseholdId = account.HouseholdId;
-            bankAccount.AccountType = account.AccountType;
-            db.BankAccounts.Add(bankAccount);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                account.Created = DateTime.Now;
+                account.OwnerId = User.Identity.GetUserId();
+                account.HouseholdId = User.Identity.GetHouseholdId();
+                db.BankAccounts.Add(account);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: BankAccounts/Edit/5

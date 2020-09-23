@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace RichlynnFinancialPortal.Controllers
 {
-   
+   [Authorize(Roles ="New User, Member, Head")]
     public class HomeController : Controller
     {
         

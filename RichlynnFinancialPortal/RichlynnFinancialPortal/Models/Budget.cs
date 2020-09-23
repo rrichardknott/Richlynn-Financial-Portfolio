@@ -20,14 +20,27 @@ namespace RichlynnFinancialPortal.Models
 
         public DateTime Created { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Created")]
+        public string CreatedString
+        {
+            get
+            {
+                string dateString = Created.ToString("MMM dd, yyy");
+                return dateString;
+            }
+        }
+
+
+
         [Display(Name = "Name")]
         public string BudgetName { get; set; }
 
-        [Display(Name = "Current Amount")] // amount actually spent
+        [Display(Name = "Current Amount")] // amount currently spent
         public decimal CurrentAmount { get; set; }
 
 
-        [NotMapped]
+        [NotMapped] // will not be saved in the DB
         [Display(Name = "Target Amount")]// this is the budgeted amount for the month
         public decimal TargetAmount 
         {

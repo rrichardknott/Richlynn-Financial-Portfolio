@@ -10,7 +10,7 @@
     </div>
 
     <div class="text-white width-100">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Create", "Invitations", FormMethod.Post, new { @class="width-100" }))
         {
             @Html.AntiForgeryToken()
             <!--The below 4 hidden values come from the model's constructor-->
@@ -19,7 +19,7 @@
             @Html.HiddenFor(model => model.TTL)
             @Html.HiddenFor(model => model.IsValid)
 
-            <div class="form-horizontal">
+            <div class="form-horizontal width-100">
                 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -33,7 +33,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn backgroundWhite width-20" />
+                        <input type="submit" value="Create" class="btn backgroundWhite width-40" />
                     </div>
                 </div>
             </div>

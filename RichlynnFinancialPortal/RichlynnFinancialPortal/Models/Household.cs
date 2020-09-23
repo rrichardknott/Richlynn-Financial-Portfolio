@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,12 +12,24 @@ namespace RichlynnFinancialPortal.Models
 
         public int Id { get; set; }
 
+       
         [Display(Name = "Name")]
         public string HouseholdName { get; set; }
 
         public string Greeting { get; set; }
 
         public DateTime Created { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Created")]
+        public string CreatedString
+        {
+            get
+            {
+                string dateString = Created.ToString("MMM dd, yyy");
+                return dateString;
+            }
+        }
 
         [Display(Name = "Delete Household?")]
         public bool IsDeleted { get; set; }

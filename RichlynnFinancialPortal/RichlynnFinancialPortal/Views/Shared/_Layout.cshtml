@@ -21,6 +21,7 @@
         var userId = User.Identity.GetUserId();
         userRole = userRoleHelper.ListUserRoles(userId).FirstOrDefault();
         userFullName = User.Identity.GetFullName();
+        
     }
     else
     {
@@ -55,10 +56,11 @@
     <div class="container-fluid">
         <!--Integration begins-->
         <nav class="sb-topnav navbar navbar-expand navbar-dark" id="topNavbar">
-            <h4 class="brandTitle colorGoldenRod ml-3" href="@Url.Action("Index", "Home")">Richlynn Financial!</h4>
-            <button class="btn btn-link btn-lg order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars text-white"></i></button>
+            <div class="h4 brandTitle colorGoldenRod ml-3" href="@Url.Action("Index", "Home")">Richlynn Financial!</div>
+           
 
             <div id="layoutHomeAboutContainer">
+                <button class="btn btn-link" id="sidebarToggle" href="#"><i class="fas fa-bars text-white"></i></button>
                 <div>
                     @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "text-white", id = "homeLink" })
                 </div>
@@ -69,12 +71,7 @@
 
             @if (Request.IsAuthenticated)
             {
-                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm1", @class = "navbar-right text-white" }))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div class="nav navbar-nav" id="topNavUserName"><h4 class="mt-4 text-white">Hi @userFullName</h4></div><a class="colorBlack text-white text-decoration-none" id="navbarUserLogoffLink" href="javascript:document.getElementById('logoutForm1').submit()">Log off</a>
-                }
+                <div class="nav navbar-nav" id="topNavUserName"><h4 class="mt-4 text-white">Hi @userFullName</h4></div>               
             }
             else
             {
@@ -83,10 +80,6 @@
                     <div>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "text-white" })</div>
                 </div>
             }
-
-
-
-
 
 
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -123,31 +116,47 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading"></div>
-                            <a class="nav-link text-white" href="index.html">
+                            <a class="nav-link text-white" href="@Url.Action("Index", "Home")">
+                               
                                 <div class="sb-nav-link-icon text-white"><i class="fas fa-tachometer-alt text-white"></i></div>
                                 Dashboard
                             </a>
 
                             <a class="nav-link collapsed text-white" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon" id="sidenavHouseIcon"><i class="fas fa-house-user"></i></div>
-                                Create
+                                <div class="sb-nav-link-icon" id="sidenavHouseIcon"><i class="fas fa-plus-circle"></i></div>
+                                Take Action
                                 <div class="sb-sidenav-collapse-arrow text-white"><i class="fas fa-angle-down text-white"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a href="#" data-toggle="modal" data-target="#createHouseholdModal">
-                                        A Household
+                                        Create Household
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#addBankAccountModal">
-                                        A Bank Account
+                                    @if (userRole != "New User")
+                                    {
+                                        <a href="#" data-toggle="modal" data-target="#addBankAccountModal">
+                                            Create Bank Account
+                                        </a>
+                                    }
+                                    @if (userRole != "Head")
+                                    {
+                                        <a href="#" data-toggle="modal" data-target="#joinHouseholdModal">
+                                            Join Household
+                                        </a>
+                                    }
+
+                                    @Html.ActionLink("Make a Transaction", "Create", "Transactions");
+                                    
+                                    <a href="#" data-toggle="modal" data-target="#userSettingsModal">
+                                        User Settings
                                     </a>
-                                    <a class="nav-link text-white" href="layout-sidenav-light.html">Light Sidenav</a>
+
                                 </nav>
                             </div>
                             <a class="nav-link collapsed text-white" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon text-white"><i class="fas fa-book-open text-white"></i></div>
+                                @*<div class="sb-nav-link-icon text-white"><i class="fas fa-book-open text-white"></i></div>
                                 Pages
-                                <div class="sb-sidenav-collapse-arrow text-white"><i class="fas fa-angle-down"></i></div>
+                                <div class="sb-sidenav-collapse-arrow text-white"><i class="fas fa-angle-down"></i></div>*@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion text-white" id="sidenavAccordionPages">
@@ -176,32 +185,34 @@
                                 </nav>
                             </div>
 
+                            @if (Request.IsAuthenticated)
+                            {
+
+                                <div class="text-white ml-2" id="sideNavUserInfo">
+                                    <div class="text-white">Name: <br /> @userFullName</div>
+                                    <div class="text-white">Role: @userRole</div>
+                                    <div class="text-white">Household: @userHouseholdId</div>
+                                    <div>
+
+                                        @if (userRole != "New User")
+                                        {
+
+                                            <hr />
+                                            using (Html.BeginForm("LeaveAsync", "Households", FormMethod.Post, new { id = "leaveForm" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+
+
+                                                <a class="btn backgroundRed colorWhite h3" id="layoutLeaveButton" href="javascript:document.getElementById('leaveForm').submit()">Leave House</a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                            }
 
                         </div>
                     </div>
-
-
-                    @if (Request.IsAuthenticated)
-                    {
-
-                        <div class="sb-sidenav-footer text-white ml-2">
-                            <div class="text-white">Name: <br /> @userFullName</div>
-                            <div class="text-white">Role:@userRole</div>
-                            <div class="text-white">Household: @userHouseholdId</div>
-                            <div>
-                                <hr />
-                                @using (Html.BeginForm("LeaveAsync", "Households", FormMethod.Post, new { id = "leaveForm" }))
-                                {
-                                    @Html.AntiForgeryToken()
-
-
-                                    <a class="btn backgroundRed colorWhite h3" href="javascript:document.getElementById('leaveForm').submit()">Leave House</a>
-                                }
-                            </div>
-                        </div>
-                    }
-
-
                 </nav>
             </div>
 
@@ -213,58 +224,7 @@
         <hr />
         <footer class="colorGoldenRod">
             <p>&copy; @DateTime.Now.Year - Richlynn Financial</p>
-        </footer>
-
-
-        <!--My Modals Begin-->
-        <!--Create Household Begin-->
-
-        @*@using (Html.BeginForm("Create", "Households", FormMethod.Post))
-        {
-            <div class="modal fade" id="createHouseholdModal">
-                <div class="modal-dialog">
-                    <div class="modal-content backgroundCharcoal text-white">
-                        @Html.AntiForgeryToken()
-
-                        <div class="modal-header">
-                            <h2>Create Household</h2>
-                            <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
-                        </div>
-                        <div class="modal-body displayFlex">
-                            @Html.Label("Name", new { htmlAttributes = new { @class = "form-control " } })
-                            @Html.Editor("HouseholdName", new { @class = "text-danger" })
-                        </div>
-                        <div class="modal-body">
-                            @Html.Label("Greeting", new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.Editor("Greeting", new { @class = "text-danger" })
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" value="Create" class="btn backgroundWhite colorBlack" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }*@
-        <!--Create Household Ends-->
-        @*Add Bank Account Begin*@
-
-        @*<div class="modal fade" id="addBankAccountModal">
-            <div class="modal-dialog">
-                <div class="modal-content backgroundCharcoal text-white" id="addBankAccountModalContentContainer">
-                    <div class="modal-header">
-                        <h2>Add Bank Account</h2>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
-                    </div>
-                    <div class="modal-body displayFlex">
-                        @Html.Action("_BankAccountModal", "BankAccounts")
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" value="Create" class="btn backgroundGoldenRod text-white w-50" />
-                    </div>
-                </div>
-            </div>
-        </div>*@
-        @*Add Bank Account Ends*@
+        </footer>      
 
 
 

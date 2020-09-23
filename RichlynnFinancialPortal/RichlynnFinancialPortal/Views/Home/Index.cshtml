@@ -1,37 +1,79 @@
-﻿
+﻿@using RichlynnFinancialPortal.Helpers;
+@using Microsoft.AspNet.Identity;
     @{ 
+       
+        var userId = "";
+        var userRole = "";
+        if (Request.IsAuthenticated)
+        {
+            UserRoleHelper userRoleHelper = new UserRoleHelper();
+            userId = User.Identity.GetUserId();
+            userRole = userRoleHelper.ListUserRoles(userId).FirstOrDefault();
+        }
+
         ViewBag.Title = "Home page";
+
     }
 
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
                 <!--begin top row-->
-                <div class="row" id="layoutTopRow">
-                    <div class="col-4">
-                        <div class="card fadedCharcoal text-center text-white mb-4">
-                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
+               
+                    <div class="row" id="layoutTopRow">
+                        <div class="col-4">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
+                        </div>
+                        <div class="col-4 displayNone">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card fadedCharcoal text-center text-white mb-4">
-                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
+               
+                    @*<div class="row" id="layoutTopRow">
+                        <div class="col-4">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
                         </div>
-                    </div>
-                </div><!--end top row-->
-                <!--begin bottom row-->
-                <div class="mt-5" id="layoutBottomRow">
-                    <div class="col-4">
-                        <div class="card fadedCharcoal text-center text-white mb-4">
-                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
+                        <div class="col-4">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card fadedCharcoal text-center text-white mb-4">
-                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
+                    </div>*@<!--end top row-->
+               
+               
+                    <div class="mt-5" id="layoutBottomRow">
+                        <div class="col-4 displayNone">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
                         </div>
-                    </div>
-                </div><!--end bottom row-->
+                        <div class="col-4">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
+                        </div>
+                    </div><!--end bottom row-->
+               
+                    @*<div class="mt-5" id="layoutBottomRow">
+                        <div class="col-4">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card fadedCharcoal text-center text-white mb-4">
+                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
+                            </div>
+                        </div>
+                    </div>*@<!--end bottom row-->
+                
+
             </div>
         </main>
 

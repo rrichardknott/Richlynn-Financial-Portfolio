@@ -4,63 +4,70 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="container-fluid">
+    <div class="row marginTop60 width-100">
+        <table class="width-100 colorWhite">
+            <thead class="fadedBlack">
+                <tr class="height30">
+                    <th>
+                       Owner Name
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemName)
+                    </th>                    
+                    <th>
+                        @Html.DisplayNameFor(model => model.TargetAmount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CurrentAmount)
+                    </th>
+                    <th>
+                       Deleted?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="fadedCharcoal">
+                    <td>
+                        @Html.DisplayFor(model => model.Budget.Owner.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.TargetAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.CurrentAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IsDeleted)
+                    </td>                    
+                </tr>
+            </tbody>
+        </table>
+        <p class="displayFlex width-20 mt-2">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn backgroundWhite width-100" }) |
+            @Html.ActionLink("Back to List", "Index", "Budgets", new { @class = "btn backgroundWhite width-100" })
+        </p>
+    </div>
 
-<div>
-    <h4>BudgetItem</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Budget.OwnerId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Budget.OwnerId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ItemName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ItemName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TargetAmount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TargetAmount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentAmount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CurrentAmount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+
+
+
+
+
+
+
+
+
+
