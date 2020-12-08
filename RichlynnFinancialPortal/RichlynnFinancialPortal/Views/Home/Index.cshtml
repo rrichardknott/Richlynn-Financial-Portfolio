@@ -18,68 +18,40 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <!--begin top row-->
-               
-                    <div class="row" id="layoutTopRow">
-                        <div class="col-4">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
-                        </div>
-                        <div class="col-4 displayNone">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
+                <!--top row begins-->
+                <div class="row" id="layoutTopRow">
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
                         </div>
                     </div>
-               
-                    @*<div class="row" id="layoutTopRow">
-                        <div class="col-4">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#createHouseholdModal">Create Household<i class="fas fa-house-user fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
                         </div>
-                        <div class="col-4">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#joinHouseholdModal">Join Household<i class="fas fa-door-open fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
+                    </div>
+                </div>
+                <!--top row ends-->
+                <!--bottom row begins-->
+                <div class="mt-5" id="layoutBottomRow">
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
                         </div>
-                    </div>*@<!--end top row-->
-               
-               
-                    <div class="mt-5" id="layoutBottomRow">
-                        <div class="col-4 displayNone">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card fadedCharcoal text-center text-white mb-4">
+                            <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
                         </div>
-                        <div class="col-4">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
-                        </div>
-                    </div><!--end bottom row-->
-               
-                    @*<div class="mt-5" id="layoutBottomRow">
-                        <div class="col-4">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#addBankAccountModal">Add Bank Account<i class="fas fa-university fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="card fadedCharcoal text-center text-white mb-4">
-                                <div class="card-body h1 p-5"><a href="#" data-toggle="modal" data-target="#userSettingsModal">User Settings<i class="fas fa-user-cog fa-6x colorDarkGreen text-center"></i></a></div>
-                            </div>
-                        </div>
-                    </div>*@<!--end bottom row-->
-                
-
+                    </div>
+                </div>
+                <!--bottom row ends-->
             </div>
         </main>
 
 
 
-        <!--My Modals Begin-->
+        <!--Modals Begin-->
         <!--Create Household Begin-->
         
         @using (Html.BeginForm("Create", "Households", FormMethod.Post))
@@ -162,10 +134,9 @@
                         <h2 class="text-white">User Settings</h2>
                         <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="false">x</button>
                     </div>
-                    <div class="modal-body displayFlex pt-4 pb-5">
+                    <div class="modal-body pt-4 pb-5" id="modalUserSettings">
                         @Html.ActionLink("Change Name", "UpdateProfile", "Manage", null, new { @class = " btn backgroundWhite colorBlack" })
-                        @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = " btn backgroundWhite colorBlack" })
-                        @Html.ActionLink("Change Avatar", "#", "#", null, new { @class = " btn backgroundWhite colorBlack" })
+                        @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = " btn backgroundWhite colorBlack" })                     
                     </div>
                     @*<div class="modal-footer">
                         <input type="submit" value="Submit" class="btn backgroundWhite colorBlack" />

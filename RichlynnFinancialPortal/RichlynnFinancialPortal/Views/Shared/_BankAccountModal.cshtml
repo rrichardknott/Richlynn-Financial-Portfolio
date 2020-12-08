@@ -6,38 +6,45 @@
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("HouseholdId", User.Identity.GetHouseholdId())
-    <div class="form-horizontal">       
+    <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.Label("Account Name", new { @class = "width-100 text-white ml-3"})
-        @*@Html.LabelFor(model => model.AccountName, htmlAttributes: new { @class = "control-label col-md-4 w-100" })*@
-        <div class="col">
-            @Html.EditorFor(model => model.AccountName, new { htmlAttributes = new { @class = "form-control w-100" } })
-            @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group w-250px">
-        @Html.Label("Account Type", new { @class = "width-100 text-white ml-3" })
-        <div class="col">
-            @Html.EnumDropDownListFor(model => model.AccountType, htmlAttributes: new { @class = "form-control", id="bankAccountModalDropDown" })
-            @Html.ValidationMessageFor(model => model.AccountType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-        <div class="form-group w-250px">
-            @Html.LabelFor(model => model.StartingBalance, htmlAttributes: new { @class = "control-label w-100 ml-3" })
+        <div class="form-group">
+            @Html.Label("Account Name", new { @class = "width-100 text-white ml-3" })
             <div class="col">
-                @Html.EditorFor(model =>  model.StartingBalance, new { htmlAttributes = new { @class = "form-control", id = "bankAccountModalStarting" } })
-                @Html.ValidationMessageFor(model => model.StartingBalance, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.AccountName, new { htmlAttributes = new { @class = "form-control w-100" } })
+                @Html.ValidationMessageFor(model => model.AccountName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group w-250px">
+            @Html.Label("Account Type", new { @class = "width-100 text-white ml-3" })
+            <div class="col">
+                @Html.EnumDropDownListFor(model => model.AccountType, htmlAttributes: new { @class = "form-control", id = "bankAccountModalDropDown" })
+                @Html.ValidationMessageFor(model => model.AccountType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group w-250px">
+            @Html.LabelFor(model => model.StartingBalance, htmlAttributes: new { @class = "control-label w-100 ml-3" })
+            <div class="col">
+                @Html.EditorFor(model => model.StartingBalance, new { htmlAttributes = new { @class = "form-control", id = "bankAccountModalStarting" } })
+                @Html.ValidationMessageFor(model => model.StartingBalance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group w-250px">
+            @Html.LabelFor(model => model.CurrentBalance, htmlAttributes: new { @class = "control-label w-100 ml-3" })
+            <div class="col">
+                @Html.EditorFor(model => model.CurrentBalance, new { htmlAttributes = new { @class = "form-control", id = "bankAccountModalStarting" } })
+                @Html.ValidationMessageFor(model => model.CurrentBalance, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group w-250px">
             @Html.LabelFor(model => model.WarningBalance, htmlAttributes: new { @class = "control-label w-100 ml-3" })
             <div class="col">
-                @Html.EditorFor(model => model.WarningBalance, new { htmlAttributes = new { @class = " form-control", id="bankAccountModalWarning" } })
+                @Html.EditorFor(model => model.WarningBalance, new { htmlAttributes = new { @class = " form-control", id = "bankAccountModalWarning" } })
                 @Html.ValidationMessageFor(model => model.WarningBalance, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using RichlynnFinancialPortal.Extensions;
 using RichlynnFinancialPortal.Models;
 
 namespace RichlynnFinancialPortal
@@ -50,17 +52,21 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseholdId,OwnerId,Created,BudgetName,CurrentAmount")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,BudgetName,CurrentAmount")] Budget budget)
         {
             if (ModelState.IsValid)
             {
+
+                budget.Created = DateTime.Now;
+                budget.OwnerId = User.Identity.GetUserId();                
+                db.SaveChanges();
                 db.Budgets.Add(budget);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "HouseholdName", budget.HouseholdId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", budget.OwnerId);
+            //ViewBag.OwnerId = new SelectList(db.Users, "Id", "Email", budget.OwnerId);
             return View(budget);
         }
 

@@ -39,8 +39,9 @@ namespace RichlynnFinancialPortal
         // GET: BudgetItems/Create
         public ActionResult Create()
         {
+            var userModel = new BudgetItem();
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "OwnerId");
-            return View();
+            return View(userModel);
         }
 
         // POST: BudgetItems/Create

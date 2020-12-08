@@ -10906,9 +10906,6 @@ body {
 
 /*=====================================MY STYLES=======================================*/
 
-
-
-
 .applyFlexBox{
     display: flex;
 }
@@ -11288,8 +11285,12 @@ footer{
     
 }
 
-#layoutSidenav_content{
-    
+#modalUserSettings{
+    display: flex;
+    justify-content: space-around;
+}
+
+#layoutSidenav_content {
 }
 
 #layoutTopRow, #layoutBottomRow {
@@ -11347,11 +11348,8 @@ footer{
 }
 
 /*Bank Accounts Index View*/
-#bankAccountsIndexRowContainer{
-    height: 70vh;
-    margin-top: 6%;
-    padding-top: 2%;
-    
+#bankAccountsIndexContainer{
+    margin-top: 60px;    
 }
 
 #bankAccountIndexAddButton{
@@ -11491,12 +11489,12 @@ footer{
 }
 
 #transactionsIndexRow {
-    height: 80vh;
+   
     
 }
 #transcationsIndexTable {
     margin-top: 60px;
-    height: 60vh;        
+        
     
 }
 
@@ -11537,7 +11535,7 @@ footer{
 
 #budgetsIndexTable{
     margin-top: 60px;
-    height: 60vh;
+    
 }
 
 #budgetsCreateButton{

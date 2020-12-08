@@ -68,13 +68,15 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(BankAccount account)
+        public ActionResult Create(BankAccount account, decimal startingBalance)
         {
             if (ModelState.IsValid)
             {
                 account.Created = DateTime.Now;
                 account.OwnerId = User.Identity.GetUserId();
                 account.HouseholdId = User.Identity.GetHouseholdId();
+                account.StartingBalance = startingBalance;
+                account.CurrentBalance = account.StartingBalance;
                 db.BankAccounts.Add(account);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -104,13 +106,14 @@ namespace RichlynnFinancialPortal
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HouseholdId,OwnerId,AccountName,Created,StartingBalance,CurrentBalance,WarningBalance,IsDeleted,AccountType")] BankAccount bankAccount, decimal startingBalance)
+        public ActionResult Edit([Bind(Include = "Id,AccountName,CurrentBalance,WarningBalance,IsDeleted,AccountType")] BankAccount bankAccount, decimal startingBalance)
         {
             if (ModelState.IsValid)
             {
-                //=============
-                bankAccount.StartingBalance = startingBalance;
-                //==============
+                bankAccount.Created = DateTime.Now;
+                bankAccount.OwnerId = User.Identity.GetUserId();
+                bankAccount.HouseholdId = User.Identity.GetHouseholdId();
+                bankAccount.StartingBalance = startingBalance;                
                 db.Entry(bankAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -19,21 +19,20 @@
             <h1 class="text-white" id="bankAccountEditH1">Edit Bank Account</h1>
             <div class="width-100" id="bankAccountsEditTopRow">
                 <div class="form-group">
-                    <h3 class="ml-3 text-white">Household Name</h3>
-                    @*@Html.LabelFor(model => model.HouseholdId, "HouseholdId", htmlAttributes: new { @class = "control-label col-md-2 text-white" })*@
+                    <h3 class="ml-3 text-white">Household Name</h3>                   
                     <div class="col-md-10">
                         @Html.DropDownList("HouseholdId", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.HouseholdId, "", new { @class = "text-danger " })
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.OwnerId, "OwnerId", htmlAttributes: new { @class = "control-label col-md-2 text-white" })
                     <div class="col-md-10">
                         @Html.DropDownList("OwnerId", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OwnerId, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.AccountName, htmlAttributes: new { @class = "control-label col-md-6 text-white" })
@@ -43,13 +42,13 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-6 text-white" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                </div>*@
             </div><!--end bank accounts edit top row-->
             <div class="width-100" id="bankAccountsEditBottomRow">
                 <div class="form-group">

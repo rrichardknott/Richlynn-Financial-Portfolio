@@ -63,21 +63,52 @@ namespace RichlynnFinancialPortal.Migrations
             var userManager = new UserManager<ApplicationUser>(
                 new UserStore<ApplicationUser>(context));
 
-            // seeding myself in all roles for quick testing purposes
-            if (!context.Users.Any(u => u.Email == adminEmail))
+
+            #region Seed Household
+
+            Household newHouse = null;
+            if (!context.Households.Any())
             {
-                userManager.Create(new ApplicationUser()
+                newHouse = new Household
                 {
-                    Email = adminEmail,
-                    UserName = adminEmail,
-                    FirstName = "Richard",
-                    LastName = "Knott",
-                }, adminPassword);
+                    Created = DateTime.Now,
+                    Greeting = "Hello from Seeded Household",
+                    IsDeleted = false,
+                    HouseholdName = "Seeded Household"
+                };
 
-                var userId = userManager.FindByEmail(adminEmail).Id;
-                userManager.AddToRole(userId, "Admin");
-
+                context.Households.Add(newHouse);
             }
+            context.SaveChanges();
+
+
+           
+            Household newHouse1 = new Household
+            {
+                Created = DateTime.Now,
+                Greeting = "Hello from The Avalos Household",
+                IsDeleted = false,
+                HouseholdName = "The Avalos'"
+            };
+
+            context.Households.Add(newHouse1);
+            context.SaveChanges();
+
+            
+            
+            Household newHouse2 = new Household
+            {
+                Created = DateTime.Now,
+                Greeting = "Hello from The Jones' Household",
+                IsDeleted = false,
+                HouseholdName = "The Jones'"
+            };
+
+            context.Households.Add(newHouse2);
+
+            context.SaveChanges();
+            #endregion
+            
 
             if (!context.Users.Any(u => u.Email == headEmail))
             {
@@ -85,12 +116,14 @@ namespace RichlynnFinancialPortal.Migrations
                 {
                     Email = headEmail,
                     UserName = headEmail,
-                    FirstName = "Richard",
-                    LastName = "Knott",
+                    FirstName = "Jose",
+                    LastName = "Avalos",
                 }, headPassword);
 
                 var userId = userManager.FindByEmail(headEmail).Id;
                 userManager.AddToRole(userId, "Head");
+                var user = userManager.FindByEmail(headEmail);
+                user.HouseholdId = context.Households.Where(h => h.HouseholdName == "The Avalos'").FirstOrDefault().Id;
 
             }
 
@@ -100,12 +133,15 @@ namespace RichlynnFinancialPortal.Migrations
                 {
                     Email = memberEmail,
                     UserName = memberEmail,
-                    FirstName = "Richard",
-                    LastName = "Knott",
+                    FirstName = "Ruth",
+                    LastName = "Jones",
                 }, memberPassword);
-
-                var userId = userManager.FindByEmail(memberEmail).Id;
+                
+                var userId = userManager.FindByEmail(memberEmail).Id;                
                 userManager.AddToRole(userId, "Member");
+                var user = userManager.FindByEmail(memberEmail);
+                user.HouseholdId = context.Households.Where(h => h.HouseholdName == "The Jones'").FirstOrDefault().Id;                
+
 
             }
 
@@ -125,53 +161,10 @@ namespace RichlynnFinancialPortal.Migrations
             }
             #endregion
 
-            #region Seed Household
-            Household newHouse = null;
-            if (!context.Households.Any())
-            {
-                newHouse = new Household
-                {
-                    Created = DateTime.Now,
-                    Greeting = "Hello from Seeded Household",
-                    IsDeleted = false,
-                    HouseholdName = "Seeded Household"
-                };
-
-                context.Households.Add(newHouse);
-            }
-            context.SaveChanges();
-
-            Household newHouse1 = null;           
-            
-                newHouse1 = new Household
-                {
-                    Created = DateTime.Now,
-                    Greeting = "Hello from The Avalos Household",
-                    IsDeleted = false,
-                    HouseholdName = "The Avalos'"
-                };
-
-                context.Households.Add(newHouse1);
-            
-            context.SaveChanges();
-
-            Household newHouse2 = null;
-
-            newHouse2 = new Household
-            {
-                Created = DateTime.Now,
-                Greeting = "Hello from The Jones' Household",
-                IsDeleted = false,
-                HouseholdName = "The Jones'"
-            };
-
-            context.Households.Add(newHouse2);
-
-            context.SaveChanges();
-            #endregion
+           
 
             #region Seed Bank Account
-            var ownerId = context.Users.FirstOrDefault(u => u.Email == adminEmail).Id;
+            var ownerId = context.Users.FirstOrDefault(u => u.Email == headEmail).Id;
             if (!context.BankAccounts.Any())
             {
                 context.BankAccounts.Add(new BankAccount

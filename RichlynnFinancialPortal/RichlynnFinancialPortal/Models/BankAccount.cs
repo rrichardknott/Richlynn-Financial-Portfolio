@@ -70,7 +70,7 @@ namespace RichlynnFinancialPortal.Models
 
         public BankAccount()
         {
-            StartingBalance = -1;// set to negative to test against starting balance
+            StartingBalance = -1;
         }
 
     }
